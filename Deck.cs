@@ -5,7 +5,8 @@ namespace hilo
 {
     public class Deck
     {
-        public List<Card> cards;
+        public List<Card> cards { get; set; }
+        public static Random rng = new Random();
         public Deck()
         {
             cards = new List<Card>();
@@ -33,6 +34,35 @@ namespace hilo
             Card card = this.cards[0];
             this.cards.RemoveAt(0);
             return card;
+        }
+        ///<summary>populates the Deck object with a number of Card objects, 13 in this case.
+        public void Populate()
+        {
+            for (int i = 0; i < 13; i++)
+            {
+                this.Add(new Card(i+1));
+            }
+        }
+        public void Shuffle()
+        {
+            for (int i = 0; i < cards.Count; i++)
+            {
+                //destination index
+                //MIGHT NEED TO HAVE THE this. KEYWORD TO WORK
+                var dest = rng.Next(this.cards.Count);
+                var temp = this.cards[dest];
+                this.cards[dest] = this.cards[i];
+                this.cards[i] = temp;
+            }
+        }
+
+        public void Print()
+        {
+            foreach (Card card in this.cards)
+            {
+                Console.Write($"{card.rank} of {card.suit} ");
+            }
+            Console.Write("\n");
         }
     }
 }
