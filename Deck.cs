@@ -18,6 +18,7 @@ namespace hilo
         {
             if (pos < 0)
             {
+                Console.Write("inserting a new card");
                 this.cards.Insert(this.cards.Count, card);
             }
             else
@@ -48,7 +49,6 @@ namespace hilo
             for (int i = 0; i < cards.Count; i++)
             {
                 //destination index
-                //MIGHT NEED TO HAVE THE this. KEYWORD TO WORK
                 var dest = rng.Next(this.cards.Count);
                 var temp = this.cards[dest];
                 this.cards[dest] = this.cards[i];
@@ -56,13 +56,20 @@ namespace hilo
             }
         }
 
-        public void Print()
+        public void PrintNames()
         {
             foreach (Card card in this.cards)
             {
-                Console.Write($"{card.rank} of {card.suit} ");
+                card.PrintName();
             }
-            Console.Write("\n");
+        }
+
+        public void PrintNums()
+        {
+            foreach (Card card in this.cards)
+            {
+                card.PrintNum();
+            }
         }
     }
 }
