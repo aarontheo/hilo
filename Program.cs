@@ -25,11 +25,24 @@ namespace hilo
         deck.Populate();
         char guess;
         bool success = false;
+        Console.WriteLine($@"
+Welcome to High/Low!
+--------------------
+    you start the game with {score} points.
+    there are 13 cards, 
+    and each turn you will draw a card and guess 
+    whether the next card is higher or lower than 
+    the current one.
+    If you are correct, you gain 100 points.
+    If you are wrong, your lose 75 points.
+    If your points go below 0, you lose.
+    Good luck!
+");
         newround:
-            deck.Shuffle();
             //do the actions 13 times
             for (int i = 0; i < 13; i++)
             {
+                deck.Shuffle();
                 Console.WriteLine($"score: {score}");
                 //take the first card from the deck and draw it from the deck into currentCard
                 currentCard = deck.draw();
@@ -73,11 +86,12 @@ namespace hilo
                 if (score < 0)
                 {
                     Console.WriteLine("You lose... :/ Better luck next time.");
+                    break;
                 }
                 success = false;
                 deck.Add(currentCard);
             }
-            Console.WriteLine($"Your final score is {score} points!");
+            Console.WriteLine($"Your final score is {score} points.");
             if (score > 0)
             {
                 Console.Write("Would you like to start another round? (y/n): ");
