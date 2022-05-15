@@ -19,29 +19,84 @@ namespace hilo
     {
         static void Main(string[] args)
         {
-            //goto this point to start a new game
-            newgame:
-            int score = 300;
-            Deck deck = new Deck();
-            Card currentCard;
-            //Deck discard = new Deck();
-            deck.Populate();
+        int score = 300;
+        Deck deck = new Deck();
+        Card currentCard;
+        deck.Populate();
+        char guess;
+        bool success = false;
+        newround:
             deck.Shuffle();
-            deck.PrintNums();
-            //Print an introduction for the player on the first run
-            currentCard = deck.draw();
-            Console.WriteLine(currentCard.name);
-            //goto this point to start a new round
-            newround:
-            for (int i = 0; i<13; i++)
+            //do the actions 13 times
+            for (int i = 0; i < 13; i++)
             {
+                Console.WriteLine($"score: {score}");
                 //take the first card from the deck and draw it from the deck into currentCard
                 currentCard = deck.draw();
+                Card nextCard = deck.cards[0];
                 //display the current card
                 Console.WriteLine($"Current card: {currentCard.name}\nValue: {currentCard.num}");
+            //prompt user to input higher or lower as a guess
+            prompt:
+                Console.Write("Higher (h) or Lower (l)? ");
+                guess = Console.ReadLine()[0];
+                if (guess == 'h')
+                {
+                    if (nextCard.num > currentCard.num)
+                    {
+                        success = true;
+                    }
+                }
+                else if (guess == 'l')
+                {
+                    if (nextCard.num < currentCard.num)
+                    {
+                        success = true;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Not a valid input! try 'h' or 'l'.");
+                    goto prompt;
+                }
+                if (success)
+                {
+                    Console.WriteLine("Correct! +100 points.");
+                    score += 100;
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect. -75 points.");
+                    score -= 75;
+                }
+                Console.WriteLine($"Next card was {nextCard.name}.\n");
+                if (score < 0)
+                {
+                    Console.WriteLine("You lose... :/ Better luck next time.");
+                }
+                success = false;
+                deck.Add(currentCard);
+            }
+            Console.WriteLine($"Your final score is {score} points!");
+            if (score > 0)
+            {
+                Console.Write("Would you like to start another round? (y/n): ");
+                prompt:
+                guess = Console.ReadLine()[0];
+                if (guess == 'y')
+                {
+                    goto newround;
+                }
+                else if (guess == 'n')
+                {
+                    
+                }else{
+                    Console.WriteLine("Please enter (y/n): ");
+                }
             }
             //if the user has points left, prompt a new round
             //else, declare their winnings and thank them for playing
+            Console.WriteLine("Thanks for playing!");
         }
     }
 }

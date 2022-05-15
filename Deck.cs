@@ -12,19 +12,11 @@ namespace hilo
             cards = new List<Card>();
         }
 
-        public void Add(Card card, int pos = 0)
+        public void Add(Card card)
         //adds a card to the deck at the given index, use -1 to add to the bottom (defaults to top of the deck)
         //optionally, a negative pos value will add the card to the bottom of the deck.
         {
-            if (pos < 0)
-            {
-                Console.Write("inserting a new card");
-                this.cards.Insert(this.cards.Count, card);
-            }
-            else
-            {
-                this.cards.Insert(pos, card);
-            }
+            this.cards.Add(card);
         }
 
         public Card draw()
@@ -33,15 +25,15 @@ namespace hilo
         //Analogous to pop()
         {
             Card card = this.cards[0];
-            this.cards.RemoveAt(0);
+            this.cards.Remove(card);
             return card;
         }
         ///<summary>populates the Deck object with a number of Card objects, 13 in this case.
         public void Populate()
         {
-            for (int i = 0; i < 13; i++)
+            for (int i = 1; i <= 13; i++)
             {
-                this.Add(new Card(i+1));
+                this.Add(new Card((Rank)i));
             }
         }
         public void Shuffle()
