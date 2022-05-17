@@ -39,20 +39,20 @@ Welcome to High/Low!
     Good luck!
 ");
         newround:
+            //draw the initial card
+            currentCard = deck.draw();
             //do the actions 13 times
             for (int i = 0; i < 13; i++)
             {
                 deck.Shuffle();
                 Console.WriteLine($"score: {score}");
-                //take the first card from the deck and draw it from the deck into currentCard
-                currentCard = deck.draw();
                 Card nextCard = deck.cards[0];
                 //display the current card
                 Console.WriteLine($"Current card: {currentCard.name}\nValue: {currentCard.num}");
             //prompt user to input higher or lower as a guess
             prompt:
                 Console.Write("Higher (h) or Lower (l)? ");
-                guess = Console.ReadLine()[0];
+                if(!char.TryParse(Console.ReadLine(),out guess));
                 if (guess == 'h')
                 {
                     if (nextCard.num > currentCard.num)
@@ -72,6 +72,7 @@ Welcome to High/Low!
                     Console.WriteLine("Not a valid input! try 'h' or 'l'.");
                     goto prompt;
                 }
+                Console.Clear();
                 if (success)
                 {
                     Console.WriteLine("Correct! +100 points.");
@@ -82,7 +83,7 @@ Welcome to High/Low!
                     Console.WriteLine("Incorrect. -75 points.");
                     score -= 75;
                 }
-                Console.WriteLine($"Next card was {nextCard.name}.\n");
+                Console.WriteLine($"Next card was {nextCard.name}.");
                 if (score < 0)
                 {
                     Console.WriteLine("You lose... :/ Better luck next time.");
@@ -90,13 +91,15 @@ Welcome to High/Low!
                 }
                 success = false;
                 deck.Add(currentCard);
+                currentCard = deck.draw();
+                //System.Threading.Thread.Sleep(1000);
             }
             Console.WriteLine($"Your final score is {score} points.");
             if (score > 0)
             {
                 Console.Write("Would you like to start another round? (y/n): ");
                 prompt:
-                guess = Console.ReadLine()[0];
+                if(!char.TryParse(Console.ReadLine(),out guess))
                 if (guess == 'y')
                 {
                     goto newround;
@@ -106,6 +109,7 @@ Welcome to High/Low!
                     
                 }else{
                     Console.WriteLine("Please enter (y/n): ");
+                    goto prompt;
                 }
             }
             //if the user has points left, prompt a new round
